@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Лента записей
+{% endblock %}
+
+{% block content %}
+  <h1>Лента записей</h1>                        
+    <hr>
+  {% for post in post_index %}
+    {% include "includes/post.html" %}
+    <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
+    {% if not forloop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}     
+{% endblock %}

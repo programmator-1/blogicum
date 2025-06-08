@@ -27,10 +27,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Дополнительные директории, где собраны статические файлы проекта.
+STATICFILES_DIRS = [
+    BASE_DIR / 'static_dev',
+]
+
+# Адреса папок с шаблонами можно вынести в отдельные константы,
+# код станет более читабельным.
+TEMPLATES_DIR = BASE_DIR / 'templates'
 
 # Application definition
-
 INSTALLED_APPS = [
+    'blog.apps.BlogConfig',
+    'pages.apps.PagesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +63,7 @@ ROOT_URLCONF = 'blogicum.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
