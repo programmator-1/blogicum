@@ -16,7 +16,10 @@
         {{ post.text|linebreaksbr }}
       {% elif view_name == 'blog:index' %}
         {{ post.text|truncatewords:10 }}
+        <div>
+            <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
+        </div>
       {% endif %}
     {% endwith %}
     </p>
-  </article>
+</article>

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
 
-posts = [
+posts: list[dict[str, int | str]] = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -44,22 +44,27 @@ posts = [
     },
 ]
 
-posts_dict = {post['id']: post for post in posts}
+#1) В именование переменных типы данных не указываются. Это про постфикс _dict.
+#2) Словари именуются исходя из того что хранится в нем.
+# Имя posts уже занято. Так что постфикс _dict указывает
+# на то, что это другая структура для хранения тех же постов,
+# но с более быстрым доступом по id
+posts_dict: dict[int, dict[str, int | str]] = {post['id']: post for post in posts}
 
 
 def index(request):
-    context = {'post_index': reversed(posts)}
-    return render(request, 'blog/index.html', context)
+    return render(request, 'blog/index.html',
+                  {'posts': posts})
 
 
-def post_detail(request, id):
+def post_detail(request, post_id: int):
     try:
-        context = {'post': posts_dict[id]}
+        return render(request, 'blog/detail.html',
+                      {'post': posts_dict[post_id]})
     except KeyError:
         raise Http404('Страница не найдена')
-    return render(request, 'blog/detail.html', context)
 
 
 def category_posts(request, category_slug):
-    context = {'post_category': category_slug}
-    return render(request, 'blog/category.html', context)
+    return render(request, 'blog/category.html',
+                  {'post_category': category_slug})
